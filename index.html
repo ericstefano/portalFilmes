@@ -1,53 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portal Filmes</title>
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
     <link rel="stylesheet" href="./styles/styles.css" />
-</head>
+  </head>
 
-<body class="wrapper">
+  <body class="wrapper">
     <header class="header">
-        <a href="/">Logo</a>
-        <nav id="nav">
-            <ul id="menu">
-                <li><a href="/">lançamentos</a></li>
-                <li><a href="/">em destaque</a></li>
-                <li><a href="/">avaliações</a></li>
-                <li><a href="/">entrevistas & makingof</a></li>
-                <li><a href="/">novidades</a></li>
-            </ul>
-            <div class="search">
-                <input type="search" placeholder="Pesquisar...">
-                <div>
-                    <div class="fas fa-search fa-xs"></div>
-                </div>
-            </div>
-            <div id="btn-mobile">
-                <button><span class="fa fa-bars fa-lg" id="spanBtn"></span></button>
-            </div>
-        </nav>
+      <a href="/">Logo</a>
+      <nav id="nav">
+        <ul id="menu">
+          <li><a href="/">lançamentos</a></li>
+          <li><a href="/">em destaque</a></li>
+          <li><a href="/">avaliações</a></li>
+          <li><a href="/">entrevistas & makingof</a></li>
+          <li><a href="/">novidades</a></li>
+        </ul>
+        <div class="search">
+          <input type="search" placeholder="Pesquisar..." />
+          <div>
+            <div class="fas fa-search fa-xs"></div>
+          </div>
+        </div>
+        <div id="btn-mobile">
+          <button><span class="fa fa-bars fa-lg" id="spanBtn"></span></button>
+        </div>
+      </nav>
     </header>
     <section class="place-center bg-lightgrey">
-        <div class="text-center py-20px">
-            <h1>Lançamentos</h1>
+      <div class="text-center py-20px">
+        <h1>Lançamentos</h1>
+      </div>
+      <div class="swiper-container">
+        <div class="swiper-wrapper pb-40px" id="slide-wrapper">
+          <!-- Slides -->
         </div>
-        <div class="swiper-container">
-            <div class="swiper-wrapper pb-40px" id="slide-wrapper">
-                <!-- Slides -->
-            </div>
-            <!-- Paginação -->
-            <div class="swiper-pagination"></div>
-        </div>
-        <!-- </section> -->
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-        <script src="./scripts/script.js"></script>
-</body>
-
+        <!-- Paginação -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="./scripts/script.js"></script>
+  </body>
 </html>
