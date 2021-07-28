@@ -19,12 +19,12 @@
   </head>
 
   <body class="wrapper">
-    <header class="header">
+    <header id="header">
       <a href="/">Logo</a>
       <nav id="nav">
         <ul id="menu">
-          <li><a href="/">lançamentos</a></li>
-          <li><a href="/">em destaque</a></li>
+          <li><a onclick="goToElement(lancamentos)">lançamentos</a></li>
+          <li><a onclick="goToElement(emDestaque)">em destaque</a></li>
           <li><a href="/">avaliações</a></li>
           <li><a href="/">entrevistas & makingof</a></li>
           <li><a href="/">novidades</a></li>
@@ -40,7 +40,7 @@
         </div>
       </nav>
     </header>
-    <section class="place-center bg-lightgrey">
+    <section id="lancamentos">
       <div class="text-center py-20px">
         <h1>Lançamentos</h1>
       </div>
@@ -50,6 +50,19 @@
         </div>
         <!-- Paginação -->
         <div class="swiper-pagination"></div>
+      </div>
+    </section>
+    <section id="em-destaque" class="bg-lightgrey">
+      <div class="flex py-20px space-between">
+        <h1>Em destaque</h1>
+        <div class="dropdown">
+          <button id="btn-dropdown">Tudo</button>
+          <ul id="dropdown-content"></ul>
+        </div>
+      </div>
+      <div id="grid-cards"></div>
+      <div class="flex py-20px content-end">
+        <button id="btn-carregar">+ Carregar mais filmes</button>
       </div>
     </section>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
