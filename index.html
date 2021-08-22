@@ -18,53 +18,258 @@
     <link rel="stylesheet" href="./styles/styles.css" />
   </head>
 
-  <body class="wrapper">
-    <header id="header">
-      <a href="/">Logo</a>
-      <nav id="nav">
-        <ul id="menu">
-          <li><a onclick="goToElement(lancamentos)">lançamentos</a></li>
-          <li><a onclick="goToElement(emDestaque)">em destaque</a></li>
-          <li><a href="/">avaliações</a></li>
-          <li><a href="/">entrevistas & makingof</a></li>
-          <li><a href="/">novidades</a></li>
-        </ul>
-        <div class="search">
-          <input type="search" placeholder="Pesquisar..." />
-          <div>
-            <div class="fas fa-search fa-xs"></div>
+  <body>
+    <main class="grid-wrapper" id="top-screen">
+      <header class="header">
+        <div class="header__logo-container">
+          <a href="/" class="header__link">Logo</a>
+        </div>
+        <nav id="nav" class="header__nav">
+          <ul id="menu" class="header__menu">
+            <li>
+              <a class="header__link header__mobile-link" id="top-screen-anchor"
+                >lançamentos</a
+              >
+            </li>
+            <li>
+              <a
+                class="header__link header__mobile-link"
+                id="em-destaque-anchor"
+                >em destaque</a
+              >
+            </li>
+            <li>
+              <a href="/" class="header__link header__mobile-link"
+                >avaliações</a
+              >
+            </li>
+            <li>
+              <a href="/" class="header__link header__mobile-link"
+                >entrevistas & makingof</a
+              >
+            </li>
+            <li>
+              <a href="/" class="header__link header__mobile-link">novidades</a>
+            </li>
+          </ul>
+          <form class="search-form">
+            <input
+              type="search"
+              placeholder="Pesquisar..."
+              class="search-form__input"
+            />
+            <div class="search-form__icon-container">
+              <span class="search-form__icon fas fa-search fa-xs"></span>
+            </div>
+          </form>
+          <div id="btn-mobile" class="btn-mobile">
+            <button class="btn-mobile__button">
+              <span
+                class="btn-mobile__icon fa fa-bars fa-lg"
+                id="span-btn"
+              ></span>
+            </button>
+          </div>
+        </nav>
+      </header>
+      <section id="lancamentos" class="lancamentos">
+        <div class="lancamentos__header">
+          <h1>Lançamentos</h1>
+        </div>
+        <div class="swiper-container">
+          <div class="swiper-wrapper"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
+      <section id="em-destaque" class="em-destaque">
+        <div class="em-destaque__header">
+          <h1>Em destaque</h1>
+          <div id="dropdown" class="btn-dropdown">
+            <button id="btn-dropdown" class="btn-dropdown__button">
+              Tudo
+              <span class="fas fa-caret-down fa-lg"></span>
+            </button>
+            <ul id="dropdown-content" class="btn-dropdown__content"></ul>
           </div>
         </div>
-        <div id="btn-mobile">
-          <button><span class="fa fa-bars fa-lg" id="spanBtn"></span></button>
+        <div id="grid-cards" class="movie-cards"></div>
+        <div class="btn-carregar">
+          <button id="btn-carregar" class="btn-carregar__button">
+            + Carregar mais filmes
+          </button>
         </div>
-      </nav>
-    </header>
-    <section id="lancamentos">
-      <div class="text-center py-20px">
-        <h1>Lançamentos</h1>
-      </div>
-      <div class="swiper-container">
-        <div class="swiper-wrapper pb-40px" id="slide-wrapper">
-          <!-- Slides -->
+      </section>
+      <section id="ultimas-avaliacoes" class="ultimas-avaliacoes">
+        <div class="ultimas-avaliacoes__header">
+          <h1>Últimas avaliações</h1>
         </div>
-        <!-- Paginação -->
-        <div class="swiper-pagination"></div>
-      </div>
-    </section>
-    <section id="em-destaque" class="bg-lightgrey">
-      <div class="flex py-20px space-between">
-        <h1>Em destaque</h1>
-        <div class="dropdown">
-          <button id="btn-dropdown">Tudo</button>
-          <ul id="dropdown-content"></ul>
+        <div class="ultimas-avaliacoes__card-container">
+          <div class="ultimas-avaliacoes__card-item">
+            <div class="ultimas-avaliacoes__card-item-img-container">
+              <img
+                src="https://source.unsplash.com/random"
+                class="ultimas-avaliacoes__card-item-img"
+              />
+            </div>
+            <div>
+              <h1>Nome do avaliador</h1>
+              <p>
+                Avaliação: Lorem ipsum dolor sit amet consectetur adipisicing
+                elit. Illum saepe deserunt, dolores itaque nulla repellat
+                repellendus facilis officiis voluptatum blanditiis magni ad
+                aperiam rerum quibusdam eum atque modi asperiores debitis!
+              </p>
+            </div>
+          </div>
+          <div class="ultimas-avaliacoes__card-item">
+            <div class="ultimas-avaliacoes__card-item-img-container">
+              <img
+                src="https://source.unsplash.com/random"
+                class="ultimas-avaliacoes__card-item-img"
+              />
+            </div>
+            <div>
+              <h1>Nome do avaliador</h1>
+              <p>
+                Avaliação: Lorem ipsum dolor sit amet consectetur adipisicing
+                elit. Illum saepe deserunt, dolores itaque nulla repellat
+                repellendus facilis officiis voluptatum blanditiis magni ad
+                aperiam rerum quibusdam eum atque modi asperiores debitis!
+              </p>
+            </div>
+          </div>
+          <div class="ultimas-avaliacoes__card-item">
+            <div class="ultimas-avaliacoes__card-item-img-container">
+              <img
+                src="https://source.unsplash.com/random"
+                class="ultimas-avaliacoes__card-item-img"
+              />
+            </div>
+            <div>
+              <h1>Nome do avaliador</h1>
+              <p>
+                Avaliação: Lorem ipsum dolor sit amet consectetur adipisicing
+                elit. Illum saepe deserunt, dolores itaque nulla repellat
+                repellendus facilis officiis voluptatum blanditiis magni ad
+                aperiam rerum quibusdam eum atque modi asperiores debitis!
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div id="grid-cards"></div>
-      <div class="flex py-20px content-end">
-        <button id="btn-carregar">+ Carregar mais filmes</button>
-      </div>
-    </section>
+        <div class="btn-carregar">
+          <button class="btn-carregar__button">
+            + Carregar mais avaliações
+          </button>
+        </div>
+      </section>
+      <section id="entrevistas" class="entrevistas">
+        <div class="entrevistas__header">
+          <h1>Entrevistas & Making of</h1>
+        </div>
+        <div class="entrevistas__making-container">
+          <div class="entrevistas__item-card">
+            <div class="video-container">
+              <iframe
+                class="video-container__video"
+                src="
+              https://www.youtube-nocookie.com/embed/${video}?enablejsapi=1"
+                allowfullscreen=""
+                frameborder="0"
+              >
+              </iframe>
+            </div>
+            <h1>Filme: Nome Filmes</h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab modi
+              quis sit eveniet. Iste blanditiis perspiciatis corporis totam rem
+              itaque vero illo temporibus delectus, quod id nulla dolor numquam
+              porro.
+            </p>
+          </div>
+          <div class="entrevistas__item-card">
+            <div class="video-container">
+              <iframe
+                class="video-container__video"
+                src="
+              https://www.youtube-nocookie.com/embed/${video}?enablejsapi=1"
+                allowfullscreen=""
+                frameborder="0"
+              >
+              </iframe>
+            </div>
+            <h1>Filme: Nome Filmes</h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab modi
+              quis sit eveniet. Iste blanditiis perspiciatis corporis totam rem
+              itaque vero illo temporibus delectus, quod id nulla dolor numquam
+              porro.
+            </p>
+          </div>
+          <div class="entrevistas__item-card">
+            <div class="video-container">
+              <iframe
+                class="video-container__video"
+                src="
+              https://www.youtube-nocookie.com/embed/${video}?enablejsapi=1"
+                allowfullscreen=""
+                frameborder="0"
+              >
+              </iframe>
+            </div>
+            <h1>Filme: Nome Filmes</h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab modi
+              quis sit eveniet. Iste blanditiis perspiciatis corporis totam rem
+              itaque vero illo temporibus delectus, quod id nulla dolor numquam
+              porro.
+            </p>
+          </div>
+        </div>
+        <div class="btn-carregar">
+          <button class="btn-carregar__button">+ Carregar mais filmes</button>
+        </div>
+      </section>
+      <section id="secao-final" class="secao-final">
+        <div class="novidades">
+          <h1 class="novidades__header">Novidades</h1>
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione
+            quasi autem fugit distinctio pariatur debitis ex, architecto nobis
+            placeat non quas id voluptatibus eum nisi commodi laudantium
+            incidunt dolor aspernatur. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Reiciendis eaque nemo commodi ab, explicabo
+            dignissimos sit porro soluta ipsum veritatis inventore repellat
+            mollitia officia minima dolorem aut odio suscipit ullam.
+          </p>
+        </div>
+        <div class="sobre-editorial">
+          <h1 class="sobre__header">Sobre</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex corporis
+            perferendis nobis officia cupiditate ipsam eaque, a qui explicabo,
+            ipsum exercitationem sit officiis, aut pariatur similique eligendi
+            natus voluptatem beatae.
+          </p>
+          <h1 class="editorial__header">Editorial</h1>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid,
+            at consequuntur iste harum dolor ratione non officia quia
+            reprehenderit doloremque repellat magnam libero quis, suscipit
+            numquam? Cumque soluta autem odit.
+          </p>
+        </div>
+      </section>
+      <section id="footer" class="footer">
+        <p>
+          Copyright 2021 - Disciplina de Desenvolvimento de Interfaces Web -
+          ICEI PUC Minas
+        </p>
+        <div class="header__logo-container">
+          <a href="/" class="header__link">Logo</a>
+        </div>
+      </section>
+      <div id="modal"></div>
+    </main>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="./scripts/script.js"></script>
   </body>
