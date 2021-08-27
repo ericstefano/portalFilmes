@@ -308,7 +308,7 @@ const dropdownButtonItems = (name, id = '') => {
 
 const fetchNowPlaying = async () => {
   const res = await fetch(tmdbRequest('/movie/now_playing', '&language=pt-BR'));
-  return await res.json();
+  return res.json();
 };
 
 const fetchMovie = async (id) => {
@@ -318,12 +318,12 @@ const fetchMovie = async (id) => {
           '&language=pt-BR&append_to_response=videos,credits',
       ),
   );
-  return await res.json();
+  return res.json();
 };
 
 const fetchVideo = async (id) => {
   const res = await fetch(tmdbRequest(`/movie/${id}/videos`));
-  return await res.json();
+  return res.json();
 };
 
 const fetchLancamentos = async () => {
