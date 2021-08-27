@@ -121,7 +121,7 @@ const buildSlide = (details) => {
   const movie = details[0];
   const video =
     movie.videos.results.length === 0 ?
-      details[1] :
+      details[1].results[0].key :
       movie.videos.results[0].key;
   const credits = movie.credits;
   const directors = credits.crew
@@ -145,7 +145,7 @@ const buildSlide = (details) => {
     </div>
     <div class="movie-description">
       <div class="movie-description__header">
-        <h1>${movie.title} (${date.getFullYear()})</h1>
+        <h3>${movie.title} (${date.getFullYear()})</h3>
       </div>
       <div class="movie-description__content">
         <p class="text-italic mb-20px">${movie.tagline}</p>
@@ -306,26 +306,37 @@ const dropdownButtonItems = (name, id = '') => {
   dropdownContent.appendChild(toAppend);
 };
 
-fetch(tmdbRequest('/movie/now_playing', '&language=pt-BR'))
-    .then((res) => res.json())
-    .then((data) => data.results.slice(0, 6))
-    .then((arr) =>
-      arr.map((movie) => {
-        const mainReq = fetch(
-            tmdbRequest(
-                `/movie/${movie.id}`,
-                '&language=pt-BR&append_to_response=videos,credits',
-            ),
-        ).then((res) => res.json());
-        const extraReq = fetch(tmdbRequest(`/movie/${movie.id}/videos`))
-            .then((res) => res.json())
-            .then((res) => res.results[0].key);
+const fetchNowPlaying = async () => {
+  const res = await fetch(tmdbRequest('/movie/now_playing', '&language=pt-BR'));
+  return await res.json();
+};
 
-        Promise.all([mainReq, extraReq]).then((res) =>
-          swiper.appendSlide(buildSlide(res)),
-        );
-      }),
-    );
+const fetchMovie = async (id) => {
+  const res = await fetch(
+      tmdbRequest(
+          `/movie/${id}`,
+          '&language=pt-BR&append_to_response=videos,credits',
+      ),
+  );
+  return await res.json();
+};
+
+const fetchVideo = async (id) => {
+  const res = await fetch(tmdbRequest(`/movie/${id}/videos`));
+  return await res.json();
+};
+
+const fetchLancamentos = async () => {
+  const movies = await fetchNowPlaying();
+  movies.results.slice(0, 6).map(async (movie) => {
+    const details = fetchMovie(movie.id);
+    const video = fetchVideo(movie.id);
+    const resp = await Promise.all([details, video]);
+    swiper.appendSlide(buildSlide(resp));
+  });
+};
+
+fetchLancamentos();
 
 const genres = fetch(tmdbRequest('/genre/movie/list', '&language=pt-BR')).then(
     (res) => res.json(),
