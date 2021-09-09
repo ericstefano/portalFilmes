@@ -188,9 +188,9 @@ const buildModals = (res) => {
 
   modalDiv.innerHTML = `
             <div class="modal__container" id="${res.id}"
-            style="background-image: url('https://image.tmdb.org/t/p/original/${
+            style="background: rgba(0,0,0, 0.7) url('https://image.tmdb.org/t/p/original/${
   res.backdrop_path
-}');">
+}') no-repeat center center; background-size: cover;">
             <div class="modal">
             <button class="modal__button modal__button--close" id="modal-${
   res.id
@@ -271,10 +271,15 @@ buildCards = (movies, quantity) => {
   movies.splice(0, quantity).map((movie) => {
     const toAppendDiv = document.createElement('div');
     const toAppendImg = document.createElement('img');
-    toAppendImg.setAttribute(
-        'src',
-        `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
-    );
+    let poster;
+    if (movie.poster_path === null) {
+      poster =
+        'https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg';
+    } else {
+      poster = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+    }
+    toAppendImg.setAttribute('src', poster);
+    toAppendImg.setAttribute('alt', movie.title);
     toAppendDiv.setAttribute('class', 'movie-cards__card');
     toAppendDiv.appendChild(toAppendImg);
     toAppendDiv.onclick = async () => {
@@ -383,7 +388,11 @@ const fetchReviews = async () => {
   const revs = await Promise.all(
       pop.results.map(async (el) => {
         const res = await fetchReview(el.id);
-        return {title: el.title, review: res.results[0]};
+        return {
+          title: el.title,
+          review: res.results[0],
+          year: new Date(el.release_date).getFullYear(),
+        };
       }),
   );
 
@@ -411,6 +420,7 @@ const buildReviews = async () => {
   const data = await fetchReviews(contador);
   data.forEach(async (review) => {
     const title = await review.title;
+    const year = await review.year;
     review = await review.review;
     const cardItem = document.createElement('div');
     cardItem.setAttribute('class', 'ultimas-avaliacoes__card-item');
@@ -427,7 +437,7 @@ const buildReviews = async () => {
     );
     const text = document.createElement('div');
     const h3 = document.createElement('h3');
-    h3.textContent = `${review.author} - avaliando "${title}"`;
+    h3.textContent = `${review.author} - avaliando "${title} (${year})"`;
     const p = document.createElement('p');
     p.setAttribute('class', 'ultimas_avaliacoes__card-text');
     p.textContent = review.content;

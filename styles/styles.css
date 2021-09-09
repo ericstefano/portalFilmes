@@ -113,6 +113,9 @@ a {
 }
 
 .search-form__icon {
+  background: none;
+  border: none;
+  outline: inherit;
   cursor: pointer;
   padding: 8px;
 }
@@ -302,8 +305,15 @@ a {
   transform: scale(1.03);
 }
 
-.btn-carregar {
+.py-20px {
   padding: 20px 0px;
+}
+
+.pt-20px {
+  padding: 20px 0px 0px 0px;
+}
+
+.btn-carregar {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;

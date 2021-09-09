@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="./styles/styles.css" />
   </head>
 
-  <body>
+  <body ondragstart="return false;" ondrop="return false;">
     <main class="grid-wrapper" id="top-screen">
       <header class="header">
         <div class="header__logo-container">
@@ -51,14 +51,15 @@
               >
             </li>
           </ul>
-          <form class="search-form">
+          <form class="search-form" action="pesquisa.html" method="GET">
             <input
               type="search"
+              name="filme"
               placeholder="Pesquisar..."
               class="search-form__input"
-            />
+            />  
             <div class="search-form__icon-container">
-              <span class="search-form__icon fas fa-search fa-xs"></span>
+              <button class="search-form__icon fas fa-search fa-xs"></button>
             </div>
           </form>
           <div id="btn-mobile" class="btn-mobile">
@@ -92,7 +93,7 @@
           </div>
         </div>
         <div id="grid-cards" class="movie-cards"></div>
-        <div class="btn-carregar" id="btn-carregar__container">
+        <div class="btn-carregar pt-20px" id="btn-carregar__container">
           <button id="btn-carregar-cards" class="btn-carregar__button">
             + Carregar mais filmes
           </button>
@@ -106,7 +107,7 @@
           class="ultimas-avaliacoes__card-container"
           id="ultimas-avaliacoes__card-container"
         ></div>
-        <div class="btn-carregar">
+        <div class="btn-carregar py-20px">
           <button id="btn-carregar-avaliacoes" class="btn-carregar__button">
             + Carregar mais avaliações
           </button>
@@ -175,7 +176,7 @@
             </p>
           </div>
         </div>
-        <div class="btn-carregar">
+        <div class="btn-carregar py-20px">
           <button class="btn-carregar__button">+ Carregar mais filmes</button>
         </div>
       </section>
@@ -261,7 +262,6 @@
       <div id="modal"></div>
     </main>
     <script src="./scripts/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/macy@2"></script>
     <script src="./scripts/script.js"></script>
   </body>
 </html>
