@@ -243,7 +243,7 @@ a {
   font-size: 1rem;
   display: flex;
   justify-content: space-between;
-  width: 150px;
+  width: 170px;
   border: none;
   padding: 8px 16px;
   background-color: #000;
@@ -324,6 +324,18 @@ a {
   transform: scale(1.05);
 }
 
+.btn-carregar__button--disabled {
+  background-color: unset;
+  color: lightslategray;
+  border: 1px solid lightslategray;
+  pointer-events: none;
+}
+
+.btn-carregar__button--disabled:hover {
+  transition: none !important;
+  transform: none !important;
+}
+
 .ultimas-avaliacoes {
   padding: 0 200px;
   background-color: #e8e8e8;
@@ -335,27 +347,47 @@ a {
 
 .ultimas-avaliacoes__card-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
-  gap: 40px;
+  gap: 20px;
 }
 
 .ultimas-avaliacoes__card-item {
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr 11fr;
   align-items: flex-start;
   gap: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  transition: 0.3s;
 }
 
-.ultimas-avaliacoes__card-item-img-container {
-  width: 64px;
-  height: 64px;
-  object-fit: cover !important;
+.ultimas-avaliacoes__card-item:hover {
+  transition: 0.3s;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 
-.ultimas-avaliacoes__card-item-img {
+.ultimas-avaliacoes__card-item-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.ultimas-avaliacoes__card-item-icon {
+  padding: 0.8rem;
   border-radius: 50px;
+  background-color: lightgray;
+}
+
+.ultimas_avaliacoes__card-text {
+  overflow: scroll;
+  max-height: 200px;
+  margin: 15px 0;
 }
 
 .entrevistas {
@@ -443,6 +475,8 @@ a {
 }
 
 .redes__icon {
+  display: flex;
+  align-content: center;
   padding: 10px;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -570,7 +604,7 @@ a {
   color: black;
 }
 
-@media only screen and (max-width: 1160px) {
+@media only screen and (max-width: 1250px) {
   .header__nav {
     gap: 10px;
   }
@@ -621,10 +655,6 @@ a {
 
   .ultimas-avaliacoes {
     padding: 0 20px;
-  }
-
-  .ultimas-avaliacoes__card-container {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .entrevistas {

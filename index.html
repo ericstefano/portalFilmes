@@ -24,29 +24,31 @@
         <nav id="nav" class="header__nav">
           <ul id="menu" class="header__menu">
             <li>
-              <a class="header__link header__mobile-link" id="top-screen-anchor"
+              <a href="#lancamentos" class="header__link header__mobile-link"
                 >lançamentos</a
               >
             </li>
             <li>
-              <a
-                class="header__link header__mobile-link"
-                id="em-destaque-anchor"
+              <a href="#em-destaque" class="header__link header__mobile-link"
                 >em destaque</a
               >
             </li>
             <li>
-              <a href="/" class="header__link header__mobile-link"
+              <a href="#ultimas-avaliacoes" class="header__link header__mobile-link"
                 >avaliações</a
               >
             </li>
             <li>
-              <a href="/" class="header__link header__mobile-link"
+              <a
+                href="#entrevistas"
+                class="header__link header__mobile-link"
                 >entrevistas & makingof</a
               >
             </li>
             <li>
-              <a href="/" class="header__link header__mobile-link">novidades</a>
+              <a href="#secao-final" class="header__link header__mobile-link"
+                >novidades</a
+              >
             </li>
           </ul>
           <form class="search-form">
@@ -90,8 +92,8 @@
           </div>
         </div>
         <div id="grid-cards" class="movie-cards"></div>
-        <div class="btn-carregar">
-          <button id="btn-carregar" class="btn-carregar__button">
+        <div class="btn-carregar" id="btn-carregar__container">
+          <button id="btn-carregar-cards" class="btn-carregar__button">
             + Carregar mais filmes
           </button>
         </div>
@@ -100,61 +102,12 @@
         <div class="ultimas-avaliacoes__header">
           <h1>Últimas avaliações</h1>
         </div>
-        <div class="ultimas-avaliacoes__card-container">
-          <div class="ultimas-avaliacoes__card-item">
-            <div class="ultimas-avaliacoes__card-item-img-container">
-              <img
-                src="https://source.unsplash.com/random"
-                class="ultimas-avaliacoes__card-item-img"
-              />
-            </div>
-            <div>
-              <h3>Nome do avaliador</h3>
-              <p>
-                Avaliação: Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Illum saepe deserunt, dolores itaque nulla repellat
-                repellendus facilis officiis voluptatum blanditiis magni ad
-                aperiam rerum quibusdam eum atque modi asperiores debitis!
-              </p>
-            </div>
-          </div>
-          <div class="ultimas-avaliacoes__card-item">
-            <div class="ultimas-avaliacoes__card-item-img-container">
-              <img
-                src="https://source.unsplash.com/random"
-                class="ultimas-avaliacoes__card-item-img"
-              />
-            </div>
-            <div>
-              <h3>Nome do avaliador</h3>
-              <p>
-                Avaliação: Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Illum saepe deserunt, dolores itaque nulla repellat
-                repellendus facilis officiis voluptatum blanditiis magni ad
-                aperiam rerum quibusdam eum atque modi asperiores debitis!
-              </p>
-            </div>
-          </div>
-          <div class="ultimas-avaliacoes__card-item">
-            <div class="ultimas-avaliacoes__card-item-img-container">
-              <img
-                src="https://source.unsplash.com/random"
-                class="ultimas-avaliacoes__card-item-img"
-              />
-            </div>
-            <div>
-              <h3>Nome do avaliador</h3>
-              <p>
-                Avaliação: Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Illum saepe deserunt, dolores itaque nulla repellat
-                repellendus facilis officiis voluptatum blanditiis magni ad
-                aperiam rerum quibusdam eum atque modi asperiores debitis!
-              </p>
-            </div>
-          </div>
-        </div>
+        <div
+          class="ultimas-avaliacoes__card-container"
+          id="ultimas-avaliacoes__card-container"
+        ></div>
         <div class="btn-carregar">
-          <button class="btn-carregar__button">
+          <button id="btn-carregar-avaliacoes" class="btn-carregar__button">
             + Carregar mais avaliações
           </button>
         </div>
@@ -308,6 +261,7 @@
       <div id="modal"></div>
     </main>
     <script src="./scripts/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/macy@2"></script>
     <script src="./scripts/script.js"></script>
   </body>
 </html>
