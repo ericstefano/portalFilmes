@@ -1,5 +1,8 @@
 const btnMobile = document.getElementById('btn-mobile');
-const carregarBtn = document.getElementById('btn-carregar');
+const carregarBtnCards = document.getElementById('btn-carregar-cards');
+const carregarBtnAvaliacoes = document.getElementById(
+    'btn-carregar-avaliacoes',
+);
 const btnDropdown = document.getElementById('btn-dropdown');
 const spanBtn = document.getElementById('span-btn');
 const menu = document.getElementById('menu');
@@ -7,14 +10,12 @@ const gridCards = document.getElementById('grid-cards');
 const dropdownContent = document.getElementById('dropdown-content');
 const modalDiv = document.getElementById('modal');
 const windowWidth = window.matchMedia('(min-width: 1160px)');
-const topScreen = document.getElementById('top-screen');
-const topScreenAnchor = document.getElementById('top-screen-anchor');
-const emDestaque = document.getElementById('em-destaque');
-const emDestaqueAnchor = document.getElementById('em-destaque-anchor');
+const ultimasAvaliacoesCardContainer = document.getElementById(
+    'ultimas-avaliacoes__card-container',
+);
 const endpoint = 'https://api.themoviedb.org/3';
 const api = 'bb7d98d462da7e8fab29d731e6823815';
 
-// Inicializando o Swiper (Carousel)
 const swiper = new Swiper('.swiper-container', {
   direction: 'horizontal',
   loop: false,
@@ -86,19 +87,29 @@ const autoToggleMenu = (currentWindowWidth) => {
 };
 windowWidth.addEventListener('change', autoToggleMenu);
 
-const goToElement = (element) => {
-  element.scrollIntoView({behavior: 'smooth'});
+const getDistanceFromTheTop = (element) => {
+  const id = element.getAttribute('href');
+  return document.querySelector(id).offsetTop;
 };
 
-// #Todo
-const sections = [topScreen, emDestaque];
-const anchors = [topScreenAnchor, emDestaqueAnchor];
-for (let i = 0; i < 2; i++) {
-  anchors[i].addEventListener('click', () => {
-    goToElement(sections[i]);
-    menuToggleOff();
+const nativeScroll = (distanceFromTheTop) => {
+  window.scroll({
+    top: distanceFromTheTop,
+    behavior: 'smooth',
   });
-}
+};
+
+const scrollToSection = (event) => {
+  event.preventDefault();
+  menuToggleOff();
+  const distanceFromTheTop = getDistanceFromTheTop(event.target) - 64;
+  nativeScroll(distanceFromTheTop);
+};
+
+const menuLinks = document.querySelectorAll('.header__menu a[href^="#"]');
+menuLinks.forEach((link) => {
+  link.addEventListener('click', scrollToSection);
+});
 
 const pauseVideo = (el) => {
   el.contentWindow.postMessage(
@@ -121,7 +132,7 @@ const buildSlide = (details) => {
   const movie = details[0];
   const video =
     movie.videos.results.length === 0 ?
-      details[1] :
+      details[1].results[0].key :
       movie.videos.results[0].key;
   const credits = movie.credits;
   const directors = credits.crew
@@ -145,7 +156,7 @@ const buildSlide = (details) => {
     </div>
     <div class="movie-description">
       <div class="movie-description__header">
-        <h1>${movie.title} (${date.getFullYear()})</h1>
+        <h3>${movie.title} (${date.getFullYear()})</h3>
       </div>
       <div class="movie-description__content">
         <p class="text-italic mb-20px">${movie.tagline}</p>
@@ -199,7 +210,7 @@ const buildModals = (res) => {
               </div>
               <div class="modal__button-container">
                 <a href="${link}" target="_blank"><button class="modal__button
-                 modal__button--red">Vídeo <span class="fas fa-hand-pointer">
+                 modal__button--red">Trailer <span class="fas fa-hand-pointer">
                  </span></button></a>
                 <a href="https://www.themoviedb.org/movie/${
   res.id
@@ -238,9 +249,22 @@ const buildModals = (res) => {
 
 buildEmDestaqueCards = (movies, quantity = 4) => {
   movies.length <= quantity ?
-    (carregarBtn.style.visibility = 'hidden') :
-    (carregarBtn.style.visibility = 'visible');
+    carregarBtnCards.setAttribute(
+        'class',
+        'btn-carregar__button btn-carregar__button--disabled',
+    ) :
+    carregarBtnCards.setAttribute('class', 'btn-carregar__button');
   buildCards(movies, quantity);
+};
+
+const fetchMovie = async (id) => {
+  const res = await fetch(
+      tmdbRequest(
+          `/movie/${id}`,
+          '&language=pt-BR&append_to_response=videos,credits',
+      ),
+  );
+  return res.json();
 };
 
 buildCards = (movies, quantity) => {
@@ -253,91 +277,181 @@ buildCards = (movies, quantity) => {
     );
     toAppendDiv.setAttribute('class', 'movie-cards__card');
     toAppendDiv.appendChild(toAppendImg);
-    toAppendDiv.onclick = () => {
-      fetch(
-          tmdbRequest(
-              `/movie/${movie.id}`,
-              '&language=pt-BR&append_to_response=videos',
-          ),
-      )
-          .then((res) => res.json())
-          .then((res) => buildModals(res));
+    toAppendDiv.onclick = async () => {
+      const morefrommovie = await fetchMovie(movie.id);
+      buildModals(morefrommovie);
     };
     gridCards.appendChild(toAppendDiv);
   });
 };
 
-// Função para atualizar as cards de imagens
 const updateCards = (movies) => {
-  // Limpar elementos antigos
   removeAllChildNodes(gridCards);
-  // Construir novos quatro elementos iniciais
   buildEmDestaqueCards(movies);
-  // Atualizar o botão para que carregue a lista de filmes nova
-  carregarBtn.onclick = () => {
+  carregarBtnCards.onclick = () => {
     buildEmDestaqueCards(movies);
   };
 };
 
-// Fazer requisição de filmes por gênero e atualizar cards
-const moviesByGenre = (id = '') =>
-  fetch(
+const fetchMovieByGenre = async (id = '') => {
+  const res = await fetch(
       tmdbRequest(
           '/discover/movie',
           `&language=pt-BR&sort_by=popularity.desc${id}`,
       ),
-  )
-      .then((res) => res.json())
-      .then((res) => updateCards(res.results));
+  );
+  return await res.json();
+};
 
-// Fazer requisição dos filmes em cartaz nos cinemas
-
-const dropdownButtonItems = (name, id = '') => {
+const dropdownButtonItems = async (name, id = '') => {
   const toAppend = document.createElement('li');
   toAppend.setAttribute('class', 'btn-dropdown__item');
   toAppend.textContent = name;
-  toAppend.onclick = () => {
+  toAppend.onclick = async () => {
     btnDropdown.textContent = name;
     const spanIcon = document.createElement('span');
     spanIcon.setAttribute('class', 'fas fa-caret-down fa-lg');
     btnDropdown.appendChild(spanIcon);
-    moviesByGenre(id);
+    const res = await fetchMovieByGenre(id);
+    updateCards(res.results);
   };
   dropdownContent.appendChild(toAppend);
 };
 
-fetch(tmdbRequest('/movie/now_playing', '&language=pt-BR'))
-    .then((res) => res.json())
-    .then((data) => data.results.slice(0, 6))
-    .then((arr) =>
-      arr.map((movie) => {
-        const mainReq = fetch(
-            tmdbRequest(
-                `/movie/${movie.id}`,
-                '&language=pt-BR&append_to_response=videos,credits',
-            ),
-        ).then((res) => res.json());
-        const extraReq = fetch(tmdbRequest(`/movie/${movie.id}/videos`))
-            .then((res) => res.json())
-            .then((res) => res.results[0].key);
+const fetchEmDestaque = async () => {
+  const res = await fetchMovieByGenre();
+  updateCards(res.results);
+};
 
-        Promise.all([mainReq, extraReq]).then((res) =>
-          swiper.appendSlide(buildSlide(res)),
-        );
-      }),
-    );
+fetchEmDestaque();
 
-const genres = fetch(tmdbRequest('/genre/movie/list', '&language=pt-BR')).then(
-    (res) => res.json(),
-);
+const fetchNowPlaying = async () => {
+  const res = await fetch(tmdbRequest('/movie/now_playing', '&language=pt-BR'));
+  return res.json();
+};
 
-genres.then((res) => {
-  // Criar todas as categorias com a resposta da requisição
-  res.genres.map((genre) => {
+const fetchVideo = async (id) => {
+  const res = await fetch(tmdbRequest(`/movie/${id}/videos`));
+  return res.json();
+};
+
+const fetchLancamentos = async () => {
+  const movies = await fetchNowPlaying();
+  movies.results.slice(0, 6).map(async (movie) => {
+    const details = fetchMovie(movie.id);
+    const video = fetchVideo(movie.id);
+    const resp = await Promise.all([details, video]);
+    swiper.appendSlide(buildSlide(resp));
+  });
+};
+
+fetchLancamentos();
+
+const fetchGenreList = async () => {
+  const res = await fetch(tmdbRequest('/genre/movie/list', '&language=pt-BR'));
+  return res.json();
+};
+
+const fetchEmDestaqueGeneros = async () => {
+  dropdownButtonItems('Tudo');
+  const res = await fetchGenreList();
+  await res.genres.map(async (genre) => {
     dropdownButtonItems(genre.name, `&with_genres=${genre.id}`);
   });
-});
+};
 
-// Construir as quatro cards de imagens iniciais (ao carregar a página)
-moviesByGenre();
-dropdownButtonItems('Tudo');
+fetchEmDestaqueGeneros();
+
+const fetchPopular = async (page = 1) => {
+  const res = await fetch(
+      tmdbRequest('/movie/popular', `&language=pt-BR&page=${page}`),
+  );
+  return res.json();
+};
+
+const fetchReview = async (id) => {
+  const res = await fetch(
+      tmdbRequest(`/movie/${id}/reviews`, '&language=pt-BR'),
+  );
+  return res.json();
+};
+
+let contador = 1;
+let qtdReviews = 0;
+const fetchReviews = async () => {
+  const pop = await fetchPopular(contador);
+  const revs = await Promise.all(
+      pop.results.map(async (el) => {
+        const res = await fetchReview(el.id);
+        return {title: el.title, review: res.results[0]};
+      }),
+  );
+
+  const final = revs.filter((el) => {
+    return el.review !== undefined;
+  });
+
+  contador += 1;
+  qtdReviews += final.length;
+
+  if (qtdReviews > 20) {
+    carregarBtnAvaliacoes.setAttribute(
+        'class',
+        'btn-carregar__button btn-carregar__button--disabled',
+    );
+  }
+
+  if (final.length === 0) {
+    return fetchReviews(contador);
+  }
+  return final;
+};
+
+const buildReviews = async () => {
+  const data = await fetchReviews(contador);
+  data.forEach(async (review) => {
+    console.log(review);
+    const title = await review.title;
+    review = await review.review;
+    const cardItem = document.createElement('div');
+    cardItem.setAttribute('class', 'ultimas-avaliacoes__card-item');
+    const iconContainer = document.createElement('div');
+    iconContainer.setAttribute(
+        'class',
+        'ultimas-avaliacoes__card-item-icon-container ',
+    );
+    const icon = document.createElement('div');
+
+    icon.setAttribute(
+        'class',
+        ' ultimas-avaliacoes__card-item-icon far fa-user fa-lg',
+    );
+    const text = document.createElement('div');
+    const h3 = document.createElement('h3');
+    h3.textContent = `${review.author} - avaliando "${title}"`;
+    const p = document.createElement('p');
+    p.setAttribute('class', 'ultimas_avaliacoes__card-text');
+    p.textContent = review.content;
+    const data = document.createElement('p');
+    data.setAttribute('class', 'text-bold');
+    const formatDate = new Date(review.created_at).toLocaleDateString('pt-BR');
+    data.textContent = `Adicionado em ${formatDate}`;
+    const link = document.createElement('a');
+    link.setAttribute('href', review.url);
+    link.setAttribute('target', '_blank');
+    link.setAttribute('style', 'color: blue;');
+    link.textContent = `Ver no TMDB`;
+    iconContainer.appendChild(icon);
+    cardItem.appendChild(iconContainer);
+    text.appendChild(h3);
+    text.appendChild(p);
+    text.appendChild(data);
+    text.appendChild(link);
+    cardItem.appendChild(text);
+    ultimasAvaliacoesCardContainer.appendChild(cardItem);
+  });
+};
+buildReviews();
+carregarBtnAvaliacoes.addEventListener('click', () => {
+  buildReviews();
+});
