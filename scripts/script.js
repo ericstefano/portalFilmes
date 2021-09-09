@@ -410,7 +410,6 @@ const fetchReviews = async () => {
 const buildReviews = async () => {
   const data = await fetchReviews(contador);
   data.forEach(async (review) => {
-    console.log(review);
     const title = await review.title;
     review = await review.review;
     const cardItem = document.createElement('div');
