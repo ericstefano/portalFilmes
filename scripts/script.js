@@ -1,26 +1,22 @@
+const menu = document.getElementById('menu');
 const btnMobile = document.getElementById('btn-mobile');
-const carregarBtnCards = document.getElementById('btn-carregar-cards');
-const carregarBtnAvaliacoes = document.getElementById(
+const btnMobileIcon = document.getElementById('btn-mobile__icon');
+const btnDropdown = document.getElementById('btn-dropdown');
+const btnDropdownContent = document.getElementById('btn-dropdown__content');
+const btnCarregarCards = document.getElementById('btn-carregar-cards');
+const moviesCards = document.getElementById('movie-cards');
+const avaliacoesCards = document.getElementById('avaliacoes__card-container');
+const btnCarregarAvaliacoes = document.getElementById(
     'btn-carregar-avaliacoes',
 );
-const btnDropdown = document.getElementById('btn-dropdown');
-const spanBtn = document.getElementById('span-btn');
-const menu = document.getElementById('menu');
-const gridCards = document.getElementById('grid-cards');
-const dropdownContent = document.getElementById('dropdown-content');
-const modalDiv = document.getElementById('modal');
-const windowWidth = window.matchMedia('(min-width: 1160px)');
-const entrevistas = document.getElementById('entrevistas__making-container');
-const ultimasAvaliacoesCardContainer = document.getElementById(
-    'ultimas-avaliacoes__card-container',
-);
-const btnCarregarEntrevistas = document.getElementById(
-    'btn-carregar-entrevistas',
+const bastidoresCards = document.getElementById('bastidores__making-container');
+const btnCarregarBastidores = document.getElementById(
+    'btn-carregar-bastidores',
 );
 const novidadesCards = document.getElementById('novidades__card-container');
+const modalDiv = document.getElementById('modal');
 const endpoint = 'https://api.themoviedb.org/3';
 const api = 'bb7d98d462da7e8fab29d731e6823815';
-
 const swiper = new Swiper('.swiper-container', {
   direction: 'horizontal',
   loop: false,
@@ -39,6 +35,7 @@ const swiper = new Swiper('.swiper-container', {
     color: 'black',
   },
 });
+const windowWidth = window.matchMedia('(min-width: 1160px)');
 
 const activateMenu = () => {
   menu.classList.add('mobile-active');
@@ -57,11 +54,11 @@ const removeMenuHeight = () => {
 };
 
 const setMenuIconActive = () => {
-  spanBtn.setAttribute('class', 'btn-mobile__icon fa fa-times fa-lg');
+  btnMobileIcon.setAttribute('class', 'btn-mobile__icon fa fa-times fa-lg');
 };
 
 const setMenuIconDeactive = () => {
-  spanBtn.setAttribute('class', 'btn-mobile__icon fa fa-bars fa-lg');
+  btnMobileIcon.setAttribute('class', 'btn-mobile__icon fa fa-bars fa-lg');
 };
 
 const menuToggleOn = () => {
@@ -254,11 +251,11 @@ const buildModals = (res) => {
 
 buildEmDestaqueCards = (movies, quantity = 4) => {
   movies.length <= quantity ?
-    carregarBtnCards.setAttribute(
+    btnCarregarCards.setAttribute(
         'class',
         'btn-carregar__button btn-carregar__button--disabled',
     ) :
-    carregarBtnCards.setAttribute('class', 'btn-carregar__button');
+    btnCarregarCards.setAttribute('class', 'btn-carregar__button');
   buildCards(movies, quantity);
 };
 
@@ -285,20 +282,21 @@ buildCards = (movies, quantity) => {
     }
     toAppendImg.setAttribute('src', poster);
     toAppendImg.setAttribute('alt', movie.title);
+    toAppendImg.setAttribute('draggable', 'false');
     toAppendDiv.setAttribute('class', 'movie-cards__card');
     toAppendDiv.appendChild(toAppendImg);
     toAppendDiv.onclick = async () => {
       const morefrommovie = await fetchMovie(movie.id);
       buildModals(morefrommovie);
     };
-    gridCards.appendChild(toAppendDiv);
+    moviesCards.appendChild(toAppendDiv);
   });
 };
 
 const updateCards = (movies) => {
-  removeAllChildNodes(gridCards);
+  removeAllChildNodes(moviesCards);
   buildEmDestaqueCards(movies);
-  carregarBtnCards.onclick = () => {
+  btnCarregarCards.onclick = () => {
     buildEmDestaqueCards(movies);
   };
 };
@@ -325,7 +323,7 @@ const dropdownButtonItems = async (name, id = '') => {
     const res = await fetchMovieByGenre(id);
     updateCards(res.results);
   };
-  dropdownContent.appendChild(toAppend);
+  btnDropdownContent.appendChild(toAppend);
 };
 
 const fetchEmDestaque = async () => {
@@ -409,7 +407,7 @@ const fetchReviews = async () => {
   qtdReviews += final.length;
 
   if (qtdReviews > 20) {
-    carregarBtnAvaliacoes.setAttribute(
+    btnCarregarAvaliacoes.setAttribute(
         'class',
         'btn-carregar__button btn-carregar__button--disabled',
     );
@@ -428,23 +426,20 @@ const buildReviews = async () => {
     const year = await review.year;
     review = await review.review;
     const cardItem = document.createElement('div');
-    cardItem.setAttribute('class', 'ultimas-avaliacoes__card-item');
+    cardItem.setAttribute('class', 'avaliacoes__card-item');
     const iconContainer = document.createElement('div');
     iconContainer.setAttribute(
         'class',
-        'ultimas-avaliacoes__card-item-icon-container ',
+        'avaliacoes__card-item-icon-container ',
     );
     const icon = document.createElement('div');
 
-    icon.setAttribute(
-        'class',
-        ' ultimas-avaliacoes__card-item-icon far fa-user fa-lg',
-    );
+    icon.setAttribute('class', ' avaliacoes__card-item-icon far fa-user fa-lg');
     const text = document.createElement('div');
     const h3 = document.createElement('h3');
     h3.textContent = `${review.author} - avaliando "${title} (${year})"`;
     const p = document.createElement('p');
-    p.setAttribute('class', 'ultimas_avaliacoes__card-text');
+    p.setAttribute('class', 'avaliacoes__card-text');
     p.textContent = review.content;
     const data = document.createElement('p');
     data.setAttribute('class', 'text-bold');
@@ -462,11 +457,11 @@ const buildReviews = async () => {
     text.appendChild(data);
     text.appendChild(link);
     cardItem.appendChild(text);
-    ultimasAvaliacoesCardContainer.appendChild(cardItem);
+    avaliacoesCards.appendChild(cardItem);
   });
 };
 buildReviews();
-carregarBtnAvaliacoes.addEventListener('click', () => {
+btnCarregarAvaliacoes.addEventListener('click', () => {
   buildReviews();
 });
 
@@ -494,7 +489,8 @@ const fetchMaking = async () => {
     }
   }
   filtered = filtered.filter(
-      (el, i, arr) => arr.findIndex((t) => t.video.title === el.video.title) === i,
+      (el, i, arr) => arr.findIndex(
+          (t) => t.video.title === el.video.title) === i,
   );
   return filtered;
 };
@@ -502,7 +498,7 @@ const fetchMaking = async () => {
 const updateMaking = async (el) => {
   const id = el.video.id;
   const itemCard = document.createElement('div');
-  itemCard.setAttribute('class', 'entrevistas__item-card');
+  itemCard.setAttribute('class', 'bastidores__item-card');
   const videoContainer = document.createElement('div');
   videoContainer.setAttribute('class', 'video-container');
   const video = document.createElement('iframe');
@@ -518,19 +514,19 @@ const updateMaking = async (el) => {
   videoContainer.appendChild(video);
   itemCard.appendChild(videoContainer);
   itemCard.appendChild(title);
-  entrevistas.appendChild(itemCard);
+  bastidoresCards.appendChild(itemCard);
 };
 
 const treatMaking = async (res) => {
   if (res.length < 3) {
-    btnCarregarEntrevistas.setAttribute(
+    btnCarregarBastidores.setAttribute(
         'class',
         'btn-carregar__button btn-carregar__button--disabled',
     );
   }
   const temp = res.splice(0, 3);
   temp.map(updateMaking);
-  btnCarregarEntrevistas.onclick = () => {
+  btnCarregarBastidores.onclick = () => {
     treatMaking(res);
   };
 };
