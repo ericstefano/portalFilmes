@@ -10,9 +10,14 @@ const gridCards = document.getElementById('grid-cards');
 const dropdownContent = document.getElementById('dropdown-content');
 const modalDiv = document.getElementById('modal');
 const windowWidth = window.matchMedia('(min-width: 1160px)');
+const entrevistas = document.getElementById('entrevistas__making-container');
 const ultimasAvaliacoesCardContainer = document.getElementById(
     'ultimas-avaliacoes__card-container',
 );
+const btnCarregarEntrevistas = document.getElementById(
+    'btn-carregar-entrevistas',
+);
+const novidadesCards = document.getElementById('novidades__card-container');
 const endpoint = 'https://api.themoviedb.org/3';
 const api = 'bb7d98d462da7e8fab29d731e6823815';
 
@@ -464,3 +469,112 @@ buildReviews();
 carregarBtnAvaliacoes.addEventListener('click', () => {
   buildReviews();
 });
+
+const fetchYoutube = async (query) => {
+  const res = await fetch(
+      `https://yt-scrap.herokuapp.com/api/search?q=${query}`,
+  );
+  return res.json();
+};
+
+const fetchMaking = async () => {
+  const res = await fetchPopular();
+  const titles = await res.results.map((el) => el.title);
+  const final = await Promise.all(
+      titles.map(async (el) => {
+        const res = await fetchYoutube(`Ingresso.com ${el} bastidores`);
+        const temp = await res.results[0];
+        return temp;
+      }),
+  );
+  let filtered = [];
+  for await (const el of final) {
+    if (!el.video.title.toLowerCase().includes('trailer')) {
+      filtered.push(el);
+    }
+  }
+  filtered = filtered.filter(
+      (el, i, arr) => arr.findIndex((t) => t.video.title === el.video.title) === i,
+  );
+  return filtered;
+};
+
+const updateMaking = async (el) => {
+  const id = el.video.id;
+  const itemCard = document.createElement('div');
+  itemCard.setAttribute('class', 'entrevistas__item-card');
+  const videoContainer = document.createElement('div');
+  videoContainer.setAttribute('class', 'video-container');
+  const video = document.createElement('iframe');
+  video.setAttribute('class', 'video-container__video');
+  video.setAttribute(
+      'src',
+      `https://www.youtube-nocookie.com/embed/${id}?enablejsapi=1"`,
+  );
+  video.setAttribute('allowfullscreen', '');
+  video.setAttribute('frameborder', '0');
+  const title = document.createElement('h3');
+  title.textContent = el.video.title;
+  videoContainer.appendChild(video);
+  itemCard.appendChild(videoContainer);
+  itemCard.appendChild(title);
+  entrevistas.appendChild(itemCard);
+};
+
+const treatMaking = async (res) => {
+  if (res.length < 3) {
+    btnCarregarEntrevistas.setAttribute(
+        'class',
+        'btn-carregar__button btn-carregar__button--disabled',
+    );
+  }
+  const temp = res.splice(0, 3);
+  temp.map(updateMaking);
+  btnCarregarEntrevistas.onclick = () => {
+    treatMaking(res);
+  };
+};
+
+const buildMaking = async () => {
+  const res = await fetchMaking();
+  treatMaking(res);
+};
+
+buildMaking();
+
+const fetchNovidades = async () => {
+  const res = await fetch('https://gnews-scrap-api.herokuapp.com/news');
+  return res.json();
+};
+
+const buildNovidades = async (news) => {
+  news = await news.noticias;
+  news = await news.splice(0, 5);
+  news.forEach((el) => {
+    const title = el.title;
+    const link = el.link;
+    const figure = el.figure;
+    const cardContainer = document.createElement('a');
+    cardContainer.setAttribute('class', 'novidades__card');
+    cardContainer.setAttribute('href', link);
+    cardContainer.setAttribute('target', '_blank');
+    const h3 = document.createElement('h3');
+    h3.textContent = title;
+    const img = document.createElement('img');
+    img.setAttribute('src', figure);
+    const div = document.createElement('div');
+    div.appendChild(h3);
+    const imgContainer = document.createElement('div');
+    imgContainer.appendChild(img);
+    cardContainer.appendChild(imgContainer);
+    cardContainer.appendChild(div);
+    novidadesCards.appendChild(cardContainer);
+  });
+};
+
+const startNovidades = async () => {
+  const req = await fetchNovidades();
+  buildNovidades(req);
+};
+
+startNovidades();
