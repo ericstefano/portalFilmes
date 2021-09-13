@@ -477,9 +477,6 @@ a {
   justify-content: space-between;
 }
 
-.editorial {
-}
-
 .editorial__header {
   padding: 20px 0;
 }
@@ -502,9 +499,6 @@ a {
   border-radius: 20px;
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-}
-
-.redes {
 }
 
 .redes__header {
