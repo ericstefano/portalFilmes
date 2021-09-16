@@ -422,6 +422,10 @@ a {
 }
 
 @media only screen and (max-width: 500px) {
+  .form__input {
+    width: 130px;
+  }
+
   .movie-cards {
     grid-template-columns: repeat(2, 1fr);
   }
