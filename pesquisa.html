@@ -15,8 +15,63 @@
   </head>
   <body>
     <main class="grid-wrapper">
+      <header class="header">
+        <div class="header__logo-container">
+          <a href="index.html" class="header__link"><img src="./images/logo.png" class="header__logo" alt=""></a>
+        </div>
+        <nav id="nav" class="header__nav">
+          <ul id="menu" class="header__menu">
+            <li>
+              <a href="index.html#lancamentos" class="header__link header__mobile-link"
+                >lançamentos</a
+              >
+            </li>
+            <li>
+              <a href="index.html#em-destaque" class="header__link header__mobile-link"
+                >em destaque</a
+              >
+            </li>
+            <li>
+              <a
+                href="index.html#avaliacoes"
+                class="header__link header__mobile-link"
+                >avaliações</a
+              >
+            </li>
+            <li>
+              <a href="index.html#bastidores" class="header__link header__mobile-link"
+                >entrevistas & makingof</a
+              >
+            </li>
+            <li>
+              <a href="index.html#secao-final" class="header__link header__mobile-link"
+                >novidades</a
+              >
+            </li>
+          </ul>
+          <form class="form" action="pesquisa.html" method="GET">
+            <input required
+              type="search"
+              name="filme"
+              placeholder="Pesquisar..."
+              class="form__input"
+            />
+            <div class="form__icon-container">
+              <button class="form__icon fas fa-search fa-xs"></button>
+            </div>
+          </form>
+          <div id="btn-mobile" class="btn-mobile">
+            <button class="btn-mobile__button">
+              <span
+                class="btn-mobile__icon fa fa-bars fa-lg"
+                id="btn-mobile__icon"
+              ></span>
+            </button>
+          </div>
+        </nav>
+      </header>
       <section class="content">
-        <h1>Resultados da pesquisa:</h1>
+        <h1 id="titulo-pesquisa">Resultados da pesquisa:</h1>
         <div class="movie-cards" id="gridCards"></div>
         <div class="btn-carregar" id="btn-carregar__container">
           <button id="btn-carregar-cards" class="btn-carregar__button">
@@ -24,8 +79,17 @@
           </button>
         </div>
       </section>
-      <div id="modal"></div>
+      <footer id="footer" class="footer">
+        <p>
+          Copyright 2021 - Disciplina de Desenvolvimento de Interfaces Web -
+          ICEI PUC Minas
+        </p>
+        <div class="header__logo-container">
+          <a href="index.html" class="header__link"><img src="./images/logo.png" class="header__logo" alt=""></a>
+        </div>
+      </footer>
     </main>
+    <div id="modal"></div>  
     <script src="./scripts/pesquisa.js"></script>
   </body>
 </html>

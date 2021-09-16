@@ -2,10 +2,67 @@ const endpoint = 'https://api.themoviedb.org/3';
 const api = 'bb7d98d462da7e8fab29d731e6823815';
 const tmdbRequest = (get, pars = '') =>
   `${endpoint}${get}?api_key=${api}${pars}`;
-
+const titulo = document.getElementById('titulo-pesquisa');
 const gridCards = document.getElementById('gridCards');
 const modalDiv = document.getElementById('modal');
 const link = new URLSearchParams(window.location.search);
+const menu = document.getElementById('menu');
+const btnMobile = document.getElementById('btn-mobile');
+const btnMobileIcon = document.getElementById('btn-mobile__icon');
+const windowWidth = window.matchMedia('(min-width: 1160px)');
+
+const activateMenu = () => {
+  menu.classList.add('mobile-active');
+};
+
+const deactivateMenu = () => {
+  menu.classList.remove('mobile-active');
+};
+
+const addMenuHeight = () => {
+  menu.style.height = `${menu.scrollHeight}px`;
+};
+
+const removeMenuHeight = () => {
+  menu.removeAttribute('style');
+};
+
+const setMenuIconActive = () => {
+  btnMobileIcon.setAttribute('class', 'btn-mobile__icon fa fa-times fa-lg');
+};
+
+const setMenuIconDeactive = () => {
+  btnMobileIcon.setAttribute('class', 'btn-mobile__icon fa fa-bars fa-lg');
+};
+
+const menuToggleOn = () => {
+  activateMenu();
+  addMenuHeight();
+  setMenuIconActive();
+};
+
+const menuToggleOff = () => {
+  deactivateMenu();
+  removeMenuHeight();
+  setMenuIconDeactive();
+};
+
+const menuToggle = () => {
+  if (menu.classList.contains('mobile-active')) {
+    menuToggleOff();
+  } else {
+    menuToggleOn();
+  }
+};
+btnMobile.addEventListener('click', menuToggle);
+
+const autoToggleMenu = (currentWindowWidth) => {
+  if (currentWindowWidth.matches) {
+    menuToggleOff();
+  }
+};
+windowWidth.addEventListener('change', autoToggleMenu);
+
 const query = link.get('filme');
 const btnCarregar = document.getElementById('btn-carregar-cards');
 let page = 1;
@@ -96,6 +153,7 @@ const buildModals = (res) => {
 };
 
 buildCards = async () => {
+  titulo.textContent = `Resultados da Pesquisa "${query}":`;
   const movies = await fetchQuery(query, page);
   page++;
   if (page >= movies.total_pages) {

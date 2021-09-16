@@ -20,7 +20,7 @@ const api = 'bb7d98d462da7e8fab29d731e6823815';
 const swiper = new Swiper('.swiper-container', {
   direction: 'horizontal',
   loop: false,
-  simulateTouch: false,
+  simulateTouch: true,
   effect: 'slide',
   keyboard: {
     enabled: true,
@@ -384,44 +384,33 @@ const fetchReview = async (id) => {
   return res.json();
 };
 
-let contador = 1;
-let qtdReviews = 0;
 const fetchReviews = async () => {
-  const pop = await fetchPopular(contador);
-  const revs = await Promise.all(
-      pop.results.map(async (el) => {
-        const res = await fetchReview(el.id);
-        return {
-          title: el.title,
-          review: res.results[0],
-          year: new Date(el.release_date).getFullYear(),
-        };
-      }),
-  );
-
-  const final = revs.filter((el) => {
-    return el.review !== undefined;
-  });
-
-  contador += 1;
-  qtdReviews += final.length;
-
-  if (qtdReviews > 20) {
-    btnCarregarAvaliacoes.setAttribute(
-        'class',
-        'btn-carregar__button btn-carregar__button--disabled',
+  const final = [];
+  let contador = 1;
+  while (final.length <= 20) {
+    const pop = await fetchPopular(contador);
+    const revs = await Promise.all(
+        pop.results.map(async (el) => {
+          const res = await fetchReview(el.id);
+          return {
+            title: el.title,
+            review: res.results[0],
+            year: new Date(el.release_date).getFullYear(),
+          };
+        }),
     );
+    final.push(
+        ...revs.filter((el) => {
+          return el.review !== undefined;
+        }),
+    );
+    contador += 1;
   }
-
-  if (final.length === 0) {
-    return fetchReviews(contador);
-  }
-  return final;
+  return final.splice(0, 20);
 };
 
-const buildReviews = async () => {
-  const data = await fetchReviews(contador);
-  data.forEach(async (review) => {
+const buildReviews = async (data) => {
+  data.splice(0, 4).forEach(async (review) => {
     const title = await review.title;
     const year = await review.year;
     review = await review.review;
@@ -460,10 +449,21 @@ const buildReviews = async () => {
     avaliacoesCards.appendChild(cardItem);
   });
 };
-buildReviews();
-btnCarregarAvaliacoes.addEventListener('click', () => {
-  buildReviews();
-});
+
+const startReviews = async () => {
+  const data = await fetchReviews();
+  buildReviews(data);
+  btnCarregarAvaliacoes.addEventListener('click', (e) => {
+    if (data.length <= 4) {
+      e.target.setAttribute(
+          'class',
+          'btn-carregar__button btn-carregar__button--disabled',
+      );
+    }
+    buildReviews(data);
+  });
+};
+startReviews();
 
 const fetchYoutube = async (query) => {
   const res = await fetch(
@@ -477,20 +477,31 @@ const fetchMaking = async () => {
   const titles = await res.results.map((el) => el.title);
   const final = await Promise.all(
       titles.map(async (el) => {
-        const res = await fetchYoutube(`Ingresso.com ${el} bastidores`);
+        const res = await fetchYoutube(`${el} entrevista bastidores making of`);
         const temp = await res.results[0];
-        return temp;
+        return {req: temp, movieName: el.toLowerCase()};
       }),
   );
   let filtered = [];
+
   for await (const el of final) {
-    if (!el.video.title.toLowerCase().includes('trailer')) {
-      filtered.push(el);
+    if (el.req.video !== undefined) {
+      const title = el.req.video.title.toLowerCase();
+      if (
+        (!title.includes('trailer') &&
+          title.includes(el.movieName) &&
+          title.includes('bastidores')) ||
+        title.includes('making of') ||
+        title.includes('makingof') ||
+        title.includes('entrevista') ||
+        title.includes('elenco')
+      ) {
+        filtered.push(el.req);
+      }
     }
   }
   filtered = filtered.filter(
-      (el, i, arr) => arr.findIndex(
-          (t) => t.video.title === el.video.title) === i,
+      (el, i, arr) => arr.findIndex((t) => t.video.title === el.video.title) === i,
   );
   return filtered;
 };
@@ -510,6 +521,7 @@ const updateMaking = async (el) => {
   video.setAttribute('allowfullscreen', '');
   video.setAttribute('frameborder', '0');
   const title = document.createElement('h3');
+  title.setAttribute('class', 'bastidores__titulo');
   title.textContent = el.video.title;
   videoContainer.appendChild(video);
   itemCard.appendChild(videoContainer);
@@ -518,13 +530,13 @@ const updateMaking = async (el) => {
 };
 
 const treatMaking = async (res) => {
-  if (res.length < 3) {
+  const temp = res.splice(0, 3);
+  if (res.length == 0) {
     btnCarregarBastidores.setAttribute(
         'class',
         'btn-carregar__button btn-carregar__button--disabled',
     );
   }
-  const temp = res.splice(0, 3);
   temp.map(updateMaking);
   btnCarregarBastidores.onclick = () => {
     treatMaking(res);

@@ -309,6 +309,10 @@ a {
   transform: scale(1.03);
 }
 
+.p-20px {
+  padding: 20px 20px;
+}
+
 .py-20px {
   padding: 20px 0px;
 }
@@ -642,6 +646,13 @@ a {
   color: black;
 }
 
+@media only screen and (max-width: 1800px) {
+  .bastidores__making-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media only screen and (max-width: 1250px) {
   .header__nav {
     gap: 10px;
@@ -699,11 +710,6 @@ a {
     padding: 0 20px;
   }
 
-  .bastidores__making-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .secao-final {
     gap: 0;
     padding: 0px 20px 20px 20px;
@@ -718,6 +724,22 @@ a {
 
   .avaliacoes__card-container {
     grid-template-columns: 1fr;
+  }
+
+  .bastidores {
+    padding: 0 0px;
+  }
+
+  .bastidores__header {
+    padding: 20px 20px;
+  }
+
+  .bastidores__titulo {
+    padding: 0 20px;
+  }
+
+  .p-20px {
+    padding: 20px 20px !important;
   }
 
   .bastidores__making-container {
