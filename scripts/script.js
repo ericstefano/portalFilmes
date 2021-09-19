@@ -134,8 +134,8 @@ const buildSlide = (details) => {
   const movie = details[0];
   const video =
     movie.videos.results.length === 0 ?
-      details[1].results[0].key :
-      movie.videos.results[0].key;
+      details[1].results[0]?.key :
+      movie.videos.results[0]?.key;
   const credits = movie.credits;
   const directors = credits.crew
       .filter((el) => el.department === 'Directing')
@@ -152,8 +152,7 @@ const buildSlide = (details) => {
     <div class="video-container">
         <iframe class="video-container__video" src="
         https://www.youtube-nocookie.com/embed/${video}?enablejsapi=1"
-            allowfullscreen="" frameborder="0"
-            id="video${swiper.slides.length}">
+        id="video${swiper.slides.length}">
         </iframe>
     </div>
     <div class="movie-description">
@@ -331,8 +330,6 @@ const fetchEmDestaque = async () => {
   updateCards(res.results);
 };
 
-fetchEmDestaque();
-
 const fetchNowPlaying = async () => {
   const res = await fetch(tmdbRequest('/movie/now_playing', '&language=pt-BR'));
   return res.json();
@@ -352,8 +349,6 @@ const fetchLancamentos = async () => {
     swiper.appendSlide(buildSlide(resp));
   });
 };
-
-fetchLancamentos();
 
 const fetchGenreList = async () => {
   const res = await fetch(tmdbRequest('/genre/movie/list', '&language=pt-BR'));
@@ -463,7 +458,6 @@ const startReviews = async () => {
     buildReviews(data);
   });
 };
-startReviews();
 
 const fetchYoutube = async (query) => {
   const res = await fetch(
@@ -518,6 +512,43 @@ const updateMaking = async (el) => {
       'src',
       `https://www.youtube-nocookie.com/embed/${id}?enablejsapi=1"`,
   );
+  video.setAttribute(
+      'srcdoc',
+      `
+  <style>
+  * {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  }
+  
+  body, html {
+    height: 100%;
+  }
+  
+  img, svg {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  
+  svg {
+    filter: drop-shadow(1px 1px 10px hsl(206.5, 70.7%, 8%));
+    transition: all 250ms ease-in-out;
+  }
+  
+  body:hover svg {
+    filter: drop-shadow(1px 1px 10px hsl(206.5, 0%, 10%));
+    transform: scale(1.2);
+  }
+</style>
+<a href='https://www.youtube.com/embed/${id}?autoplay=1'>
+  <img src='https://img.youtube.com/vi/${id}/hqdefault.jpg' alt='Coffee Recipe Javascript Project'>
+  <svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='none' stroke='#ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-play-circle'><circle cx='12' cy='12' r='10'></circle><polygon points='10 8 16 12 10 16 10 8'></polygon></svg>
+</a>`,
+  );
   video.setAttribute('allowfullscreen', '');
   video.setAttribute('frameborder', '0');
   const title = document.createElement('h3');
@@ -548,8 +579,6 @@ const buildMaking = async () => {
   treatMaking(res);
 };
 
-buildMaking();
-
 const fetchNovidades = async () => {
   const res = await fetch('https://gnews-scrap-api.herokuapp.com/news');
   return res.json();
@@ -557,7 +586,6 @@ const fetchNovidades = async () => {
 
 const buildNovidades = async (news) => {
   news = await news.noticias;
-  news = await news.splice(0, 5);
   news.forEach((el) => {
     const title = el.title;
     const link = el.link;
@@ -584,5 +612,19 @@ const startNovidades = async () => {
   const req = await fetchNovidades();
   buildNovidades(req);
 };
-
-startNovidades();
+(async () => {
+  NProgress.configure({minimum: 0.0});
+  NProgress.configure({trickle: false});
+  NProgress.configure({showSpinner: false});
+  NProgress.start();
+  fetchLancamentos();
+  NProgress.set(0.2);
+  fetchEmDestaque();
+  NProgress.set(0.4);
+  await startReviews();
+  NProgress.set(0.6);
+  await buildMaking();
+  NProgress.set(0.8);
+  await startNovidades();
+  NProgress.done();
+})();
