@@ -715,6 +715,9 @@ a {
     padding: 0px 20px 20px 20px;
     grid-template-columns: 1fr;
   }
+  .footer {
+    justify-content: center;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -755,10 +758,6 @@ a {
 
   .movie-cards {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .footer {
-    justify-content: center;
   }
 
   .modal__title {

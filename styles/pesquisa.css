@@ -403,6 +403,9 @@ a {
     padding: 0px 20px 20px 20px;
     grid-template-columns: 1fr;
   }
+  .footer {
+    justify-content: center;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -435,9 +438,5 @@ a {
 
   .modal__tagline {
     text-align: start;
-  }
-
-  .footer {
-    justify-content: center;
   }
 }
