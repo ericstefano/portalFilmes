@@ -23,7 +23,7 @@
     <br />
     <br />
     <br />
-    <a href="https://ericstefano.github.io/portalFilmes/src">Demonstração</a>
+    <a href="https://ericstefano.github.io/portalFilmes/src/images">Demonstração</a>
   </p>
 </p>
 
