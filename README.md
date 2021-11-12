@@ -165,14 +165,14 @@ Eric Stefano dos Santos Lima - ericstefano12@gmail.com
 
 Link do projeto: [https://github.com/ericstefano/portalFilmes](https://github.com/ericstefano/portalFilmes)
 
-[layout]: ./src/images/layout.jpg
-[desktop]: ./src/images/desktop.png
-[mobile]: ./src/images/mobile.png
-[responsivo]: ./src/images/responsivo.gif
-[pesquisa]: ./src/images/pesquisa.gif
-[navegação]: ./src/images/navegacao.gif
-[carousel]: ./src/images/carousel.gif
-[destaque]: ./src/images/destaque.gif
-[avaliações]: ./src/images/avaliacoes.gif
-[makingof]: ./src/images/makingof.gif
-[novidades]: ./src/images/novidades.gif
+[layout]: /tree/master/src/images/layout.jpg
+[desktop]: /tree/master/src/images/desktop.png
+[mobile]: /tree/master/src/images/mobile.png
+[responsivo]: /tree/master/src/images/responsivo.gif
+[pesquisa]: /tree/master/src/pesquisa.gif
+[navegação]: ./tree/master/src/navegacao.gif
+[carousel]: /tree/master/src/carousel.gif
+[destaque]: /tree/master/src/destaque.gif
+[avaliações]: /tree/master/src/avaliacoes.gif
+[makingof]: /tree/master/src/makingof.gif
+[novidades]: /tree/master/src/novidades.gif
