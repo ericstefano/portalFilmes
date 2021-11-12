@@ -165,14 +165,14 @@ Eric Stefano dos Santos Lima - ericstefano12@gmail.com
 
 Link do projeto: [https://github.com/ericstefano/portalFilmes](https://github.com/ericstefano/portalFilmes)
 
-[layout]: images/layout.jpg
-[desktop]: images/desktop.png
-[mobile]: images/mobile.png
-[responsivo]: images/responsivo.gif
-[pesquisa]: images/pesquisa.gif
-[navegação]: images/navegacao.gif
-[carousel]: images/carousel.gif
-[destaque]: images/destaque.gif
-[avaliações]: images/avaliacoes.gif
-[makingof]: images/makingof.gif
-[novidades]: images/novidades.gif
+[layout]: src/images/layout.jpg
+[desktop]: src/images/desktop.png
+[mobile]: src/images/mobile.png
+[responsivo]: src/images/responsivo.gif
+[pesquisa]: src/images/pesquisa.gif
+[navegação]: src/images/navegacao.gif
+[carousel]: src/images/carousel.gif
+[destaque]: src/images/destaque.gif
+[avaliações]: src/images/avaliacoes.gif
+[makingof]: src/images/makingof.gif
+[novidades]: src/images/novidades.gif
