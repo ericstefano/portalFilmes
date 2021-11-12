@@ -12,7 +12,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/ericstefano/portalFilmes/src/">
+  <a href="https://github.com/ericstefano/portalFilmes">
     <img src="src/images/logoread.png" alt="Logo" width="80" height="80">
   </a>
 
