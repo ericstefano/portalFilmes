@@ -12,7 +12,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/ericstefano/portalFilmes">
+  <a href="https://github.com/ericstefano/portalFilmes/src">
     <img src="images/logoread.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -23,7 +23,7 @@
     <br />
     <br />
     <br />
-    <a href="https://ericstefano.github.io/portalFilmes/">Demonstração</a>
+    <a href="https://ericstefano.github.io/portalFilmes/src">Demonstração</a>
   </p>
 </p>
 
@@ -153,7 +153,7 @@ Este trabalho me proporcionou muito conhecimento, como por exemplo:
 
 ## Uso
 
-Acesse o [(link)](https://ericstefano.github.io/portalFilmes/) para visualizar o site.
+Acesse o [(link)](https://ericstefano.github.io/portalFilmes/src) para visualizar o site.
 
 ## Licença
 
