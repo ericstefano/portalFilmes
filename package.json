@@ -1,19 +1,25 @@
 {
-  "name": "eslint",
+  "name": "portalfilmes",
   "version": "1.0.0",
-  "description": "",
+  "description": "<a href=\"https://github.com/ericstefano\"> <img src=\"https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white\" alt=\"github\"> </a>",
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Eric Stefano",
+  "license": "MIT",
   "devDependencies": {
-    "eslint": "^7.31.0",
+    "eslint": "^8.1.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0"
-  }
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericstefano/portalFilmes.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ericstefano/portalFilmes/issues"
+  },
+  "homepage": "https://github.com/ericstefano/portalFilmes#readme"
 }
